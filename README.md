@@ -8,8 +8,8 @@ Projeto desenvolvido em flutter.
 ## Gerência de estado
 - `SetState` ✔️
 - `ValueNotifier` ✔️
-- `ChangeNotifier`
-- `Bloc Pattern(Stream)`
+- `ChangeNotifier` ✔️
+- `Bloc Pattern(Stream)` ✔️
 
 ## Packages
 - `syncfusion_flutter_gauges: ^21.1.41`
