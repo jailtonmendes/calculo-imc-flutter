@@ -5,30 +5,24 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ImcSetstatePage extends StatefulWidget {
-  const ImcSetstatePage({Key? key}) : super(key: key);
+class ValueNotifierPage extends StatefulWidget {
+  const ValueNotifierPage({Key? key}) : super(key: key);
 
   @override
-  State<ImcSetstatePage> createState() => _ImcSetstatePageState();
+  State<ValueNotifierPage> createState() => _ValueNotifierPageState();
 }
 
-class _ImcSetstatePageState extends State<ImcSetstatePage> {
+class _ValueNotifierPageState extends State<ValueNotifierPage> {
   final pesoEC = TextEditingController();
   final alturaEC = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  var imc = 0.0;
+  var imc = ValueNotifier(0.0);
 
   Future<void> _calcularIMC(
       {required double peso, required double altura}) async {
-    setState(() {
-      imc = 0;
-    });
-
+    imc.value = 0;
     await Future.delayed(const Duration(seconds: 1));
-
-    setState(() {
-      imc = peso / pow(altura, 2); //Calcular imc = Peso ao quadrado
-    });
+    imc.value = peso / pow(altura, 2);
   }
 
   @override
@@ -40,6 +34,8 @@ class _ImcSetstatePageState extends State<ImcSetstatePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('----------------------------------------');
+    print('Build_Tela');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Imc SetState'),
@@ -51,7 +47,12 @@ class _ImcSetstatePageState extends State<ImcSetstatePage> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                ImcGauge(imc: imc),
+                ValueListenableBuilder<double>(
+                  valueListenable: imc,
+                  builder: (_, imcValue, __) {
+                    return ImcGauge(imc: imcValue);
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
